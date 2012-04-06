@@ -25,10 +25,21 @@ class PlayerInfoGui(QtGui.QMainWindow):
         if player.get_player_image():
             pixmap = QtGui.QPixmap('temp.png')
             self.ui.profile_image.setPixmap(pixmap)
-        attributes = ['Position', 'Team', 'Weight', 'Height']
+        attributes = ['Position', 'Team', 'Weight', 'Height', 'College']
         values = player.get_player_attributes(attributes)
+        for key in attributes:
+            if not key in values.keys():
+                values[key] = '???'
         self.ui.positionLabel.setText('Pos: %s' % values['Position'].upper())
         self.ui.teamLabel.setText('Team: %s' % values['Team'].upper())
         height = float(values['Height']) / 100.0
         self.ui.heightLabel.setText('H: %3.2f m' % height)
         self.ui.weightLabel.setText('W: %d kg' % int(values['Weight']))
+        self.ui.collegeLabel.setText('College: %s' % values['College'])
+        stats, values = player.get_player_stats(2011)
+        self.ui.statsTable.setRowCount(1)
+        self.ui.statsTable.setColumnCount(len(stats))
+        for index, item in enumerate(stats):
+            self.ui.statsTable.setHorizontalHeaderItem(index, QtGui.QTableWidgetItem(item))
+            self.ui.statsTable.setItem(0, index, QtGui.QTableWidgetItem(values[index]))
+        

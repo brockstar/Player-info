@@ -1,3 +1,4 @@
+import re
 import sqlite3
 
 
@@ -15,21 +16,13 @@ class PlayerLookup:
         
     def __del__(self):
         self.con.close()
-        
-    def __player_exists(self, player_name):
-        self.cur.execute('select distinct Name from Players')
-        names = self.cur.fetchall()[0]
-        if player_name in names:
-            exists = True
-        else:
-            exists = False
-        return exists
     
     def get_player_image(self):
         if self.exists:
             success = False
             try:
-                self.cur.execute('select Image from Players where Name="%s"' % (self.player))
+                self.cur.execute('select Image from Players where Name="%s"'
+                                 % (self.player))
                 data = self.cur.fetchone()
                 success = True
                 self.__write_image(data['Image'])
@@ -39,15 +32,37 @@ class PlayerLookup:
             
     def get_player_attributes(self, attr_dict):
         if self.exists:
-            self.cur.execute('select * from Players where Name="%s"' % (self.player))
+            self.cur.execute('select * from Players where Name="%s"' 
+                             % (self.player))
             attributes = self.cur.fetchone()
             d = {}
             for key in attr_dict:
-                try:
-                    d[key] = attributes[key]
-                except IndexError:
-                    print 'Warning: Key "%s" not found in database.' % key
+                if not key in ['Stats', 'Image']:
+                    try:
+                        d[key] = attributes[key]
+                    except IndexError:
+                        print 'Warning: Key "%s" not found in database.' % key
             return d
+        
+    def get_player_stats(self, year):
+        if self.exists:
+            self.cur.execute('select Stats from Players where Name="%s"'
+                             % (self.player))
+            # Retrieve stats, cast as string and remove brackets.
+            stats = self.cur.fetchone()['Stats']
+            lines = []
+            for line in stats.encode().split('\n'):
+                lines += [line.split(',')]
+            return lines[0][1:], lines[1][1:]
+        
+    def __player_exists(self, player_name):
+        self.cur.execute('select distinct Name from Players')
+        names = self.cur.fetchall()[0]
+        if player_name in names:
+            exists = True
+        else:
+            exists = False
+        return exists
     
     def __write_image(self, data):
         try:
