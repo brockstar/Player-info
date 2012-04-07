@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'PlayerInfo_GUI.ui'
 #
-# Created: Fri Apr  6 21:11:23 2012
+# Created: Sat Apr  7 10:56:57 2012
 #      by: PyQt4 UI code generator 4.8.5
 #
 # WARNING! All changes made in this file will be lost!
@@ -17,7 +17,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(712, 316)
+        MainWindow.resize(503, 352)
         MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Player Info DEV", None, QtGui.QApplication.UnicodeUTF8))
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
@@ -57,13 +57,13 @@ class Ui_MainWindow(object):
         self.collegeLabel.setText(QtGui.QApplication.translate("MainWindow", "College:", None, QtGui.QApplication.UnicodeUTF8))
         self.collegeLabel.setObjectName(_fromUtf8("collegeLabel"))
         self.statsTable = QtGui.QTableWidget(self.centralwidget)
-        self.statsTable.setGeometry(QtCore.QRect(10, 150, 691, 91))
+        self.statsTable.setGeometry(QtCore.QRect(10, 150, 481, 141))
         self.statsTable.setObjectName(_fromUtf8("statsTable"))
         self.statsTable.setColumnCount(0)
         self.statsTable.setRowCount(0)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 712, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 503, 25))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))

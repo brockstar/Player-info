@@ -1,6 +1,6 @@
 import os
 
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 
 import controller
 import gui
@@ -41,12 +41,18 @@ class PlayerInfoGui(QtGui.QMainWindow):
         self.ui.collegeLabel.setText('College: %s' % values['College'])
         # Retrieve stats and corresponding values.
         # Insert them into table afterwards.
-        stats, values = player.get_player_stats(2011)
-        self.ui.statsTable.setRowCount(1)
-        self.ui.statsTable.setColumnCount(len(stats))
-        for index, item in enumerate(stats):
-            header_item = QtGui.QTableWidgetItem(item)
-            self.ui.statsTable.setHorizontalHeaderItem(index, header_item)
-            table_item = QtGui.QTableWidgetItem(values[index])
-            self.ui.statsTable.setItem(0, index, table_item)
+        stat_names, stats = player.get_player_stats([2009, 2010, 2011])
+        self.ui.statsTable.setRowCount(len(stats.keys()))
+        self.ui.statsTable.setColumnCount(len(stat_names)-1)
+        for row, year in enumerate(stats.iterkeys()):
+            vert_header_item = QtGui.QTableWidgetItem(year)
+            self.ui.statsTable.setVerticalHeaderItem(row, vert_header_item)
+            for col, item in enumerate(stat_names[1:]):
+                self.ui.statsTable.setColumnWidth(col, 50)
+                header_item = QtGui.QTableWidgetItem(item)
+                self.ui.statsTable.setHorizontalHeaderItem(col, header_item)
+                table_item = QtGui.QTableWidgetItem(stats[year][col])
+                table_item.setFlags(QtCore.Qt.ItemIsEditable)
+                self.ui.statsTable.setItem(row, col, table_item)
+        self.ui.statsTable.setSortingEnabled(True)
         

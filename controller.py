@@ -58,7 +58,7 @@ class PlayerLookup:
                         print 'Warning: Key "%s" not found in database.' % key
             return d
         
-    def get_player_stats(self, year):
+    def get_player_stats(self, years):
         '''
         Returns the stats for the given years.
         CAUTION: At the moment it only returns the stat names and the
@@ -72,7 +72,12 @@ class PlayerLookup:
             lines = []
             for line in stats.encode().split('\n'):
                 lines += [line.split(',')]
-            return lines[0][1:], lines[1][1:]
+            stat_names = lines[0]
+            stats = {}
+            for line in lines[1:-1]:
+                if int(line[0]) in years:
+                    stats[line[0]] = line[1:]
+            return stat_names, stats
         
     def __player_exists(self, player_name):
         '''
